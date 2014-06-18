@@ -1,0 +1,28 @@
+Understanding how adaptation has shaped variation across
+populations for a wide array of traits is a topic of great
+interest in evolutionary biology. One commonly used tool to
+aid in this endeavor is the Q_st/F_st comparison. In the simplest
+version, one measures the fraction of additive genetic variance 
+for a quantitative trait that is among populations rather than
+within (Q_st), and then compares that value to F_st, an identical
+measure for neutral genetic variation. Under a set 
+of restrictive assumptions, Q_st will be equal to F_st on
+average if the trait is neutral, and the distribution of 
+their ratio will be chi-squared.
+
+In the last decade, there has been a resurgence of statistical 
+methods development work focused on expanding the general Q_st/F_st
+framework to use more of the available data, either incorporating 
+information about the genetic covariances among multiple traits 
+which one may wish to examine concurrently, or about patterns of 
+population structure which are not adequately captured by the 
+univariate measure F_st.
+
+Building on this work, we show that the Q_st/F_st comparison can
+be see as a special case of a very general multivariate
+hypothesis testing framework. Using theory and simulations,
+we show how this generalized Q_st/F_st framework admits 
+wide flexibility for investigators to chose specific hypotheses
+about the data they wish to test, providing increased statistical
+power and resolution to identify traits or populations which may 
+be of further interest.
