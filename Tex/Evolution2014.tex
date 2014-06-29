@@ -28,17 +28,26 @@
 \definecolor{red}{rgb}{1, 0, 0}
 \definecolor{purple}{rgb}{0.9, 0.1, 0.9}
 \definecolor{green}{rgb}{0.3, 0.6, 0.3}
+\newenvironment<>{varblock}[2][.9\textwidth]{%
+  \setlength{\textheight}{#1}
+  \begin{actionenv}#3%
+    \def\insertblocktitle{#2}%
+    \par%
+    \usebeamertemplate{block begin}}
+  {\par%
+    \usebeamertemplate{block end}%
+  \end{actionenv}}
 \bibliography{/usr/local/texlive/texmf-local/bibtex/bib/local/library}
 %\usepackage{bm}         % For typesetting bold math (not \mathbold)
 %\logo{\includegraphics[height=0.6cm]{yourlogo.eps}}
 %
-\title[Evolution 2014]{Evolution 2014}
+\title[Evolution 2014]{Testing for Adaptive Divergence: $Q_{ST}/F_{ST}$ Comparisons in Populations with Complicated Histories}
 \author{Jeremy Berg and Graham Coop}
 \institute[UC Davis]
 {
 University of California, Davis \\
 }
-\date{June 20, 2014}
+\date{June 22, 2014}
 % \today will show current date. 
 % Alternatively, you can specify a date.
 %
@@ -50,29 +59,30 @@ University of California, Davis \\
 \end{frame}
 
 \begin{frame}
-	\frametitle{Background Slide(s)}
+	\frametitle{Testing for adaptive differentiation}
 		\begin{itemize}
-			\item We want to know whether a particular trait is adaptively differentiated among populations
+			\item Having observed phenotypic differences between populations, we'd like to know if they are adaptive
 			\pause
-			\begin{itemize}
-				\item Put them in a common garden and measure them
-			\end{itemize}
+			\item Raise individuals from different populations in a common environment, measure their traits, and genotype them at a (preferably large) number of genetic markers
+			\pause
+			\item Compute $Q_{ST}$ and $F_{ST}$; compare them
+			\pause
+			\item \textbf{What if the individuals in our sample can't be fit neatly into a discrete set of populations?}
 		\end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{}
+\frametitle{The Standard $Q_{ST}/F_{ST}$ Comparison}
 	\begin{columns}
 		\begin{column}{0.63\textwidth}
 			\only<1-1>{\includegraphics[width = \textwidth]{../Figs/two_trait_histo.pdf}}
-			\only<2-2>{\includegraphics[width = \textwidth]{../Figs/two_trait_histo_w_lines.pdf}}
-			\only<3-5>{\includegraphics[width = \textwidth]{../Figs/two_trait_histo_w_expect.pdf}}
+			\only<2-5>{\includegraphics[width = \textwidth]{../Figs/two_trait_histo_w_lines.pdf}}
 		\end{column}
 		\begin{column}{0.38\textwidth}
 			\uncover<2-5>{\begin{block}{}
-				$Q_{ST} = \frac{\color{green}{V_B}}{\color{green}{V_B} + \color{purple}{V_W}} = \frac{V_B}{V_T}$ \\~\\
-				\uncover<3-5>{$F_{ST} = \mathbb{E}\left[\frac{V_B}{V_B + V_W}\right]$} \\~\\
-				\uncover<4-5>{$\mathbb{E}[V_B] = \left(\color{green}{V_B} + \color{purple}{V_W} \right) F_{ST}$} \\~\\
+				$Q_{ST} = \frac{\textcolor{green}{V_B}}{\textcolor{green}{V_B} + \color{purple}{V_W}} = \frac{V_B}{V_T}$ \\~\\
+				\uncover<3-5>{$\mathbb{E}\left[Q_{ST}\right] = F_{ST}$} \\~\\
+				\uncover<4-5>{$\mathbb{E}[V_B] = V_T F_{ST}$} \\~\\
 				\uncover<5-5>{$\frac{Q_{ST}}{F_{ST}} = \frac{V_B}{\mathbb{E}[V_B]} \sim \chi^2$}
 			\end{block}}
 		\end{column}
@@ -102,19 +112,6 @@ University of California, Davis \\
 %	\end{block}
 %\end{frame}
 
-\begin{frame}
-\frametitle{Generalizing $Q_{ST}/F_{ST}$}
-	\begin{block}{$Q_{ST}/F_{ST}$ with hierarchical relatedness}
-		$$\vec{Z}\sim MVN\left(\vec{\mu},V_T\mathbf{F}\right)$$
-		$$\frac{\vec{Z}^T\mathbf{F}^{-1}\vec{Z}}{V_T} \sim \chi^2$$
-		\begin{itemize}
-			\item \textbf{Ovaskainen et al 2011}, Berg and Coop 2014
-			\item $\propto$ to negative log likelihood of the data under the null model
-			\item Reduces to $\frac{Q_{ST}}{F_{ST}}$ when all populations equally related
-		\end{itemize}
-	\end{block}
-\end{frame}
-
 
 \begin{frame}[t]
 	\frametitle{Using GWAS hits to estimate genetic values}
@@ -123,13 +120,13 @@ University of California, Davis \\
 		\begin{columns}[T]
 			\begin{column}{.48\textwidth}
 				\begin{block}{}
-					$$Z_m = \sum_{\ell=1}^L \alpha_{\ell}p_{m\ell}$$
+					$$Z_k = \sum_{\ell=1}^L \alpha_{\ell}p_{k\ell}$$
 				\end{block}
 			\end{column}
 			\begin{column}{.48\textwidth}
 				\begin{block}{}
 					$$\alpha = \textmd{effect size}$$
-					$$p = \textmd{allele frequency}$$
+					$$p = \textmd{allele count}$$
 				\end{block}
 			\end{column}
 		\end{columns}
@@ -142,73 +139,118 @@ University of California, Davis \\
 \end{frame}
 
 
-
-
 \begin{frame}[t]
-\frametitle{$Q_{ST}/F_{ST}$ in continuously sampled populations}
+\frametitle{$Q_{ST}/F_{ST}$ on a natural scale}
 	\begin{columns}[T] % align columns
 		\begin{column}{.42\textwidth}
-			\only<1-3>{\includegraphics[height = 4cm]{../Figs/Tree.pdf}}
+			\only<1-5>{\includegraphics[height = 4cm]{../Figs/Tree.pdf}}
 		\end{column}%
 		\hfill%
 		\begin{column}{.56\textwidth}
-			\begin{block}{$Q_{ST}$}
-				\only<1-2>{$Q_{ST} = \frac{V_B}{V_B+V_W}$\\~\\}
-				\only<1-2>{$F_{ST} = \mathbb{E}\left[\frac{V_B}{V_B+V_W}\right]$}
-				\only<3-3>{$Q_{ST} = \frac{\left(\vec{U}_1\cdot\vec{Z}\right)^2}{\left(\vec{U}_1\cdot\vec{Z}\right)^2 + \sum_{j=2}^K\left(\vec{U}_j\cdot\vec{Z}\right)^2}$\\~\\}
-				\only<3-3>{$F_{ST} = \frac{\lambda_1}{\lambda_1 + \sum_{j=2}^K\lambda_j}$}
-			\end{block}
+			\begin{exampleblock}{Variance Partitions}
+				\only<1-1>{$Q_{ST} = \frac{V_B}{V_B+V_W}$\\~\\}
+				\only<1-1>{$F_{ST} = \mathbb{E}\left[Q_{ST}\right]$}
+				\only<2-5>{
+				\setbeamercovered{transparent}
+				\uncover<3-5>{$V_B = \left(\vec{U}_1\cdot\vec{Z}\right)^2$}\\~\\
+				\uncover<4-5>{$V_W = \sum_{i=2}^{K-1}\left(\vec{U}_i\cdot\vec{Z}\right)^2$}}
+				\uncover<5-5>{$F_{ST} = \frac{\lambda_{1}}{\sum_{i=1}^{K-1}\lambda_i}$}
+				\setbeamercovered{invisible}
+			\end{exampleblock}
 		\end{column}%
 	\end{columns}
-	\only<1-3>{\begin{block}{The Principal Components View}
+	\only<1-5>{\begin{block}{\only<1-1>{The Kinship Matrix}\only<2-5>{The Eigenvalue Decomposition (Principal Components)}}
 		\centering$\mathbf{F} = 
-					\only<1-2>{\begin{bmatrix}
+					\only<1-1>{\begin{bmatrix}
 								\mathbf{F_1}&	\mathbf{0} \\
 								\mathbf{0}&	\mathbf{F_2} \\
 							\end{bmatrix}}
-					\only<3-3>{\begin{bmatrix}
-						\vec{U}_1&	\vec{U}_2& \dots&	\vec{U}_K
+					\only<2-5>{\begin{bmatrix}
+						\vec{U}_1&	\vec{U}_2& \dots&	\vec{U}_{K-1}
 					\end{bmatrix}
 					\begin{bmatrix}
 						\lambda_1&	0&	0\\	
 						0&	\ddots&	0\\
-						0&	0&	\lambda_K
+						0&	0&	\lambda_{K-1}
 					\end{bmatrix}
 					\begin{bmatrix}
-						\vec{U}_1^T\\	\vec{U}_2^T\\ \dots\\	\vec{U}_K^T
+						\vec{U}_1^T\\	\vec{U}_2^T\\ \dots\\	\vec{U}_{K-1}^T
 					\end{bmatrix}}$
 	\end{block}}
 \end{frame}
 
+%\begin{frame}[t]
+%\frametitle{$Q_{ST}/F_{ST}$ on a natural scale}
+%	\begin{columns}[T] % align columns
+%		\begin{column}{.42\textwidth}
+%			\only<1-3>{\includegraphics[height = 4cm]{../Figs/Tree.pdf}}
+%		\end{column}%
+%		\hfill%
+%		\begin{column}{.56\textwidth}
+%			\begin{block}{$Q_{ST}$}
+%				\only<1-2>{$Q_{ST} = \frac{V_B}{V_B+V_W}$\\~\\}
+%				\only<1-2>{$F_{ST} = \mathbb{E}\left[\frac{V_B}{V_B+V_W}\right]$}
+%				\only<3-3>{$Q_{ST} = \frac{\left(\vec{U}_1\cdot\vec{Z}\right)^2}{\left(\vec{U}_1\cdot\vec{Z}\right)^2 + \sum_{j=2}^K\left(\vec{U}_j\cdot\vec{Z}\right)^2}$\\~\\}
+%				\only<3-3>{$F_{ST} = \frac{\lambda_1}{\lambda_1 + \sum_{j=2}^K\lambda_j}$}
+%			\end{block}
+%		\end{column}%
+%	\end{columns}
+%	\only<1-3>{\begin{block}{The Principal Components View}
+%		\centering$\mathbf{F} = 
+%					\only<1-2>{\begin{bmatrix}
+%								\mathbf{F_1}&	\mathbf{0} \\
+%								\mathbf{0}&	\mathbf{F_2} \\
+%							\end{bmatrix}}
+%					\only<3-3>{\begin{bmatrix}
+%						\vec{U}_1&	\vec{U}_2& \dots&	\vec{U}_K
+%					\end{bmatrix}
+%					\begin{bmatrix}
+%						\lambda_1&	0&	0\\	
+%						0&	\ddots&	0\\
+%						0&	0&	\lambda_K
+%					\end{bmatrix}
+%					\begin{bmatrix}
+%						\vec{U}_1^T\\	\vec{U}_2^T\\ \dots\\	\vec{U}_K^T
+%					\end{bmatrix}}$
+%	\end{block}}
+%\end{frame}
+
 \begin{frame}
-\frametitle{\normalsize Positive result if population predicts phenotype better than expected}
-\only<1-1>{\includegraphics[width = \textwidth]{../Figs/2PopPCPlotPos.pdf}}
-\only<2-2>{\includegraphics[width = \textwidth]{../Figs/2PopPCPlotNeg.pdf}}
+\frametitle{\normalsize Positive result if PC predicts phenotype better than expected}
+	\only<1-1>{\includegraphics[width = \textwidth]{../Figs/2PopPCPlotPos.pdf}}
+	\only<2-2>{\includegraphics[width = \textwidth]{../Figs/2PopPCPlotPosWVb.pdf}}
+	\only<3-3>{\includegraphics[width = \textwidth]{../Figs/2PopPCPlotPosWVbFst.pdf}}
 \end{frame}
 
 
 \begin{frame}[t]
-\frametitle{$Q_{ST}/F_{ST}$ in continuously sampled populations}
+\frametitle{$Q_{ST}/F_{ST}$ on a natural scale}
 	\begin{columns}[T] % align columns
 		\begin{column}{.42\textwidth}
 			\only<1-1>{\includegraphics[height = 4cm]{../Figs/Tree.pdf}}
-			\only<2-3>{\includegraphics[height = 4cm]{../Figs/Novembre.pdf}}
+			\only<2-5>{\includegraphics[height = 4cm]{../Figs/Novembre.pdf}}
 		\end{column}%
 		\hfill%
 		\begin{column}{.56\textwidth}
-			\begin{block}{$Q_{ST}$}
-				\only<1-1>{$Q_{ST} = \frac{\left(\vec{U}_1\cdot\vec{Z}\right)^2}{\left(\vec{U}_i\cdot\vec{Z}\right)^2 + \sum_{j=2}^{K-1}\left(\vec{U}_j\cdot\vec{Z}\right)^2}$\\~\\}
-				\only<1-1>{$F_{ST} = \frac{\lambda_1}{\lambda_1 + \sum_{j=2}^{K-1}\lambda_j}$}
-				\only<2-2>{$Q_{PC1:2} = \frac{V_{PC1:2}}{V_{PC1:2}+V_{PC3:K-1}}$\\~\\}
-				\only<2-2>{$F_{PC1:2} = \mathbb{E}\left[\frac{V_{PC1:2}}{V_{PC1:2}+V_{PC3:K-1}}\right]$}
-				\only<3-3>{$Q_{PC1} = \frac{\sum_{i=1}^2\left(\vec{U}_i\cdot\vec{Z}\right)^2}{\sum_{i=1}^2\left(\vec{U}_i\cdot\vec{Z}\right)^2+\sum_{j=3}^{K-1}\left(\vec{U}_j\cdot\vec{Z}\right)^2}$\\~\\}
-				\only<3-3>{$F_{PC1} = \frac{\sum_{i=1}^2\lambda_i}{\sum_{i=1}^2\lambda_i + \sum_{j=3}^{K-1}\lambda_j}$}
-			\end{block}
+			\begin{exampleblock}{Variance Partitions}
+				\only<1-1>{
+					$V_B = \left(\vec{U}_1\cdot\vec{Z}\right)^2$\\~\\
+					$V_W = \sum_{i=2}^{K-1}\left(\vec{U}_i\cdot\vec{Z}\right)^2$
+					$F_{ST} = \frac{\lambda_{1}}{\sum_{i=1}^{K-1}\lambda_i}$
+				}
+				\only<2-5>{
+					\setbeamercovered{transparent}
+					\uncover<3-5>{$V_B = \left(\vec{U}_1\cdot\vec{Z}\right)^2 + \left(\vec{U}_2\cdot\vec{Z}\right)^2$}\\~\\
+					\uncover<4-5>{$V_W = \sum_{i=3}^{K-1}\left(\vec{U}_i\cdot\vec{Z}\right)^2$}\\~\\
+					\uncover<5-5>{$F_{PC1:2} = \frac{\lambda_{1} + \lambda_{2}}{\sum_{i=1}^{K-1}\lambda_i}$}
+					\setbeamercovered{invisible}
+				}
+			\end{exampleblock}
 		\end{column}%
 	\end{columns}
-	\only<1-3>{\begin{block}{The Principal Components View}
+	\only<1-5>{\begin{block}{The Eigenvalue Decomposition (Principal Components)}
 		\centering$\mathbf{F} = 
-					\only<1-3>{\begin{bmatrix}
+					\only<1-5>{\begin{bmatrix}
 						\vec{U}_1&	\vec{U}_2& \dots&	\vec{U}_{K-1}
 					\end{bmatrix}
 					\begin{bmatrix}
@@ -253,12 +295,15 @@ University of California, Davis \\
 \begin{frame}
 \frametitle{Take Aways}
 	\begin{itemize}
-		\item Height associated SNPs significantly correlated with PC1/N-S axis in Europe (but we already knew that)
+		\item Significant but subtle correlation between genetic values for human height and PC1/N-S axis in Europe (but we already knew that)
 		\pause
-		\item $Q_{ST}/F_{ST}$ can be formulated in terms of reduced rank factorizations of the individual-by-individual kinship matrix
+		\item $Q_{ST}/F_{ST}$ can be formulated in terms of projections onto reduced rank factorizations of the individual-by-individual kinship matrix
 			\begin{itemize}
-				\item Direct relationship to PCA, \textit{structure}, Sparse Factor Analysis
-				\item Engelhardt  and Stephens 2010
+				\item Relationship to PCA, \textit{structure}, factor analysis in general
+				\begin{itemize}
+					\item Engelhardt  and Stephens 2010
+				\end{itemize}
+				\item Every word of caution applicable to PCA/\textit{structure} etc. applies here as well
 			\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -267,19 +312,60 @@ University of California, Davis \\
 \begin{frame}
 	\frametitle{Things I Didn't Mention}
 	\begin{itemize}
-		\item Can add include multiple correlated traits, but interpretation potentially trickier
+		\item Builds on generalized $Q_{ST}/F_{ST}$ framework of Ovaskainen et al 2011
+		\pause
+		\item Using G matrix information, can include multiple correlated traits in a single analysis, but interpretation potentially trickier
 		\begin{itemize}
 			\item Chenoweth and Blows (2008)
 			\item Martin et al (2008)
 		\end{itemize}
-		\item In species where it's possible to set up breeding designs, continuous sampling is not a barrier
+		\pause
+		\item Breeding designs easily be incorporated to help with estimation of genetic variance parameters
 	\end{itemize}
 \end{frame}
 
 
 \begin{frame}
-	\frametitle{Acknowledgements}
+	\frametitle{Thanks!}
+	\begin{columns}
+		\begin{column}{0.6\textwidth}
+			\includegraphics[width = \textwidth]{../Figs/cooplab_photo_1.jpg} \\
+			\includegraphics[width = 0.4\textwidth]{../Figs/nsfgrfp.png}
+			\includegraphics[width = 0.6\textwidth]{../Figs/cpb.jpg}
+		\end{column}
+		\begin{column}{0.4\textwidth}
+			\begin{itemize}
+				\item Coop Lab
+				\begin{itemize}
+					\item Alisa
+					\item Gideon
+					\item Simon
+					\item Kristin
+					\item Chenling
+					\item Graham
+				\end{itemize}
+			\item Annie Schmitt Lab
+			\item Jeff Ross-Ibarra Lab
+			\item Simon Myers
+			\end{itemize}
+		\end{column}
+	\end{columns}
 \end{frame}
+
+%\begin{frame}
+%\frametitle{Generalizing $Q_{ST}/F_{ST}$}
+%	\begin{block}{$Q_{ST}/F_{ST}$ with hierarchical relatedness}
+%		$$\vec{Z}\sim MVN\left(\vec{\mu},V_T\mathbf{F}\right)$$
+%		$$\frac{\vec{Z}^T\mathbf{F}^{-1}\vec{Z}}{V_T} \sim \chi^2$$
+%		\begin{itemize}
+%			\item \textbf{Ovaskainen et al 2011}, Berg and Coop 2014
+%			\item $\propto$ to negative log likelihood of the data under the null model
+%			\item Reduces to $\frac{Q_{ST}}{F_{ST}}$ when all populations equally related
+%		\end{itemize}
+%	\end{block}
+%\end{frame}
+
+
 
 %
 %\begin{frame}

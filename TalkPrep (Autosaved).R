@@ -124,16 +124,16 @@ curve ( dchisq ( x , 2 ) , col = "black" , add = T , lwd = 2 )
 arrows ( sum ( my.vars [1:2]) , 0.5 , sum ( my.vars [1:2]) , 0 , col = 'red' , lwd = 2 )
 
 
-pdf ( "HeightPCs12.pdf" , width = 8 , height = 6 )
-plot ( my.vars[1:2] , xlab = "PC" , ylab = expression (Q[PC]/F[PC]) , pch = 20 , bty = "n" , xaxt = "n" , yaxt = "n" , ylim = c ( 0 , 60 ) , xlim = c ( 0 , 10 ))
+pdf ( "../../../Evolution2014/Figs/HeightPCs12.pdf" , width = 8 , height = 6 )
+plot ( my.vars[1:2] , xlab = "PC" , ylab = expression (Q[PC]/F[PC]) , pch = 20 , bty = "n" , xaxt = "n" , yaxt = "n" , ylim = c ( 0 , 60 ) , xlim = c ( 0 , 10 ) , cex = 1.6 )
 axis ( 1 , at = seq ( 1,2) )
 axis ( 2 , at = seq ( 0 , 60 , 10 ) )
 dev.off()
 
 
 
-pdf ( "HeightPCs1-10.pdf" , width = 8 , height = 6 )
-plot ( my.vars , xlab = "PC" , ylab = expression (Q[PC]/F[PC]) , pch = 20 , bty = "n" , xaxt = "n" , yaxt = "n" , ylim = c ( 0 , 60 ) , xlim = c ( 0 , 10 ))
+pdf ( "../../../Evolution2014/Figs/HeightPCs1-10.pdf" , width = 8 , height = 6 )
+plot ( my.vars , xlab = "PC" , ylab = expression (Q[PC]/F[PC]) , pch = 20 , bty = "n" , xaxt = "n" , yaxt = "n" , ylim = c ( 0 , 60 ) , xlim = c ( 0 , 10 ) , cex = 1.6 )
 axis ( 1 , at = seq ( 1,10) )
 axis ( 2 , at = seq ( 0 , 60 , 10 ) )
 dev.off()
@@ -379,6 +379,65 @@ arrows ( 1.7 , 0.3 , 0.3 , 0.3 , col = rgb ( 0 , 0 , 0 , 1 ) , angle = 45 , code
 dev.off()
 
 
+
+
+
+
+par ( mar = c ( 1,1,1,1))
+plot ( NA , bty = "n" , xaxt = "n" , yaxt = "n" , ylim = c ( 0 , 1.03 ) , xlim = c ( 0 , 1 ) , ylab = "" , xlab = "")
+#lines ( c ( 0.5 , 0.5) , c ( 0.05 , 1) , lwd = 3 )
+lines ( c ( 0.2 , 0.5) , c ( 0.05 , 1) , lwd = 3 )
+lines ( c ( 0.8 , 0.5) , c ( 0.05 , 1) , lwd = 3 )
+text ( x = 0.1 , y = 0.1 , "Present" , cex = 1.5 )
+text ( x = 0.1 , y = 1 , "Past" , cex = 1.5 )
+text ( x = 0.5 , 1.03 , "Ancestor" , cex = 1.5 )
+text ( x = 0.2 , 0 , "Population 1" , cex = 1.5 )
+text ( x = 0.8 , 0 , "Population 2" , cex = 1.5 )
+
+norm.1 <- rnorm ( 100 , sd = 0.05 )
+norm.2 <- rnorm ( 100 , sd = 0.05 )
+norm.3 <- rnorm ( 100 , sd = 0.05 )
+norm.4 <- rnorm ( 100 , sd = 0.05 )
+# positive
+pdf ( "2PopPCPlotPos.pdf" , height = 6 , width = 8 )
+pdf ( "2PopPCPlotPosWVb.pdf" , height = 6 , width = 8 )
+pdf ( "2PopPCPlotPosWVbFst.pdf" , height = 6 , width = 8 )
+par ( mar = c ( 2 , 2 , 1 ,1 ) )
+plot ( NA , bty = "n" , xaxt = "n" , yaxt = "n" , ylim = c ( -1 , 1 ) , xlim = c ( -1 , 1 ) , ylab = "" , xlab = "")
+abline ( h = 0 , lty = 2 )
+abline ( v = 0 , lty = 2 )
+
+points ( 0.8 + norm.1 , 0.2 + norm.2 , pch = 20 )
+points ( -0.8 + norm.3 , -0.2 + norm.4 , pch = 20 )
+mtext ( "Principal Component 1" , side = 1 , line = 0 )
+mtext ( "Phenotype" , side = 2 , line = 0 )
+abline ( a = 0 , b = 0.25 , col = "red" , lwd = 2 )
+
+abline ( h = 0.2 , col = rgb ( 0.3 , 0.6 , 0.3 , 1 ) , lty = 3 )
+abline ( h = -0.2 , col = rgb ( 0.3 , 0.6 , 0.3 , 1 ) , lty = 3 )
+arrows ( -0.4 , 0.2 , -0.4 , -0.2 , code = 3 , col = rgb ( 0.3 , 0.6 , 0.3 , 1 ) , lwd = 3 )
+text ( x = -0.3 , y = 0.1 , expression(V[B]) , col = rgb ( 0.3 , 0.6 , 0.3 , 1 ) , cex = 1.5)
+
+abline ( v = 0.8 , lty = 3 )
+abline ( v = -0.8 , lty = 3 )
+arrows ( -0.8 , 0.35 , 0.8 , 0.35 , code = 3 , lwd = 3 )
+text ( x = 0.2 , y = 0.43 , expression(F[ST]) , cex = 1.5)
+dev.off ( )
+
+
+# negative
+pdf ( "2PopPCPlotNeg.pdf" , height = 6 , width = 8 )
+par ( mar = c ( 2 , 2 , 1 ,1 ) )
+plot ( NA , bty = "n" , xaxt = "n" , yaxt = "n" , ylim = c ( -1 , 1 ) , xlim = c ( -1 , 1 ) , ylab = "" , xlab = "")
+abline ( h = 0 , lty = 2 )
+abline ( v = 0 , lty = 2 )
+
+points ( 0.8 + rnorm ( 100 , sd = 0.05 ) , -0.2 + rnorm ( 100 , sd = 0.05 ) , pch = 20 )
+points ( -0.8 + rnorm ( 100 , sd = 0.05 ) , 0.2 + rnorm ( 100 , sd = 0.05 ) , pch = 20 )
+mtext ( "Principal Component 1" , side = 1 , line = 0 )
+mtext ( "Phenotype" , side = 2 , line = 0 )
+abline ( a = 0 , b = -0.25 , col = "red" , lwd = 2 )
+dev.off()
 
 
 
